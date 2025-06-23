@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Pages - Eat Quick</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5fcf4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #215733;
+      padding: 15px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      color: #215733;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #d6e5d8;
+      color: #215733;
+    }
+
+    tr:hover {
+      background-color: #f0fdf5;
+    }
+
+    .btn {
+      padding: 6px 12px;
+      background-color: #215733;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #184128;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="{{ url_for('admin') }}">Dashboard</a>
+    <a href="{{ url_for('allOrders') }}">Orders</a>
+    <a href="{{ url_for('allCustomers') }}">Customers</a>
+    <a href="{{ url_for('reviewMenu') }}">Reviews</a>
+    <a href="{{ url_for('adminLogout') }}">Logout</a>
+  </nav>
+
+  <div class="container">
+    {% if orderDetails %}
+      <h2>Customer Orders</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orderDetails %}
+          <tr>
+            <td>{{ order[0] }}</td>
+            <td>{{ order[1] }}</td>
+            <td>{{ order[2] }}</td>
+            <td>{{ order[3] }}</td>
+            <td>RM {{ order[4] }}</td>
+            <td>{{ order[5] }}</td>
+            <td>
+              <a href="{{ url_for('markAsDone', or_id=order[0]) }}" class="btn">Mark Done</a>
+              <a href="{{ url_for('removeOrder', or_id=order[0]) }}" class="btn">Remove</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    {% elif customers %}
+      <h2>Registered Customers</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in customers %}
+          <tr>
+            <td>{{ c[0] }}</td>
+            <td>{{ c[1] }} {{ c[2] }}</td>
+            <td>{{ c[4] }}</td>
+            <td>{{ c[6] }}</td>
+            <td>{{ c[7] }}</td>
+            <td>
+              <a href="{{ url_for('delCustomer', id=c[0]) }}" class="btn">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    {% elif allreviews %}
+      <h2>Food Reviews</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Review ID</th>
+            <th>Food</th>
+            <th>Customer</th>
+            <th>Rating</th>
+            <th>Comment</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in allreviews %}
+          <tr>
+            <td>{{ r[0] }}</td>
+            <td>{{ r[1] }}</td>
+            <td>{{ r[2] }}</td>
+            <td>{{ r[3] }}</td>
+            <td>{{ r[4] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    {% elif flag %}
+      <div class="error">You already submitted a review for this order.</div>
+
+    {% else %}
+      <h2 class="text-center">No data available</h2>
+    {% endif %}
+  </div>
+
+</body>
+</html>

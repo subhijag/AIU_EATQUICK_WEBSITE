@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Update Payment Method</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5fcf4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+      width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #215733;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #215733;
+    }
+
+    select, input[type="file"], button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background-color: #215733;
+      color: white;
+      font-weight: bold;
+      border: none;
+    }
+
+    button:hover {
+      background-color: #184128;
+    }
+
+    .qr-box {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .qr-box img {
+      width: 200px;
+      margin-top: 10px;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Update Payment Method</h2>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+      <label for="payment_method">Select Payment Method</label>
+      <select name="payment_method" required>
+        <option value="Cash">Cash</option>
+        <option value="Debit Card">Debit Card</option>
+        <option value="Credit Card">Credit Card</option>
+        <option value="Online Banking">Online Banking</option>
+        <option value="Touch 'n Go">Touch 'n Go</option>
+        <option value="Boost">Boost</option>
+      </select>
+
+      <label for="slip">Upload Payment Slip</label>
+      <input type="file" name="slip" accept=".jpg,.jpeg,.png" required>
+
+      <button type="submit">Submit Payment</button>
+    </form>
+
+    <div class="qr-box">
+      <p>Scan to pay:</p>
+      <img src="{{ url_for('static', filename='qr/qr_example.png') }}" alt="QR Code">
+    </div>
+  </div>
+</body>
+</html>

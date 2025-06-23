@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Food - Eat Quick</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5fcf4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #215733;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      margin-left: 15px;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    h2 {
+      color: #215733;
+      margin-top: 20px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    form {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #215733;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #184128;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">🍽 Eat Quick</div>
+    <div>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('menu') }}">Menu</a>
+      <a href="{{ url_for('account') }}">Account</a>
+      <a href="{{ url_for('orderDetails') }}">Orders</a>
+      <a href="{{ url_for('userLogout') }}">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    {% if food %}
+      <img src="{{ url_for('static', filename='foodimages/' ~ food[1]) }}" alt="{{ food[3] }}">
+      <h2>{{ food[3] }}</h2>
+      <p><strong>Price:</strong> RM {{ food[2] }}</p>
+      <p>{{ food[4] }}</p>
+
+      <form method="POST">
+        <input type="number" name="quantity" placeholder="Quantity" required min="1">
+        <input type="text" name="pay_number" placeholder="Payment Number" required>
+        <input type="text" name="pay_amount" placeholder="Amount (RM)" required>
+        <button type="submit">Place Order</button>
+      </form>
+
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+    {% else %}
+      <h2>No food item found.</h2>
+    {% endif %}
+  </div>
+
+</body>
+</html>

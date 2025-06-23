@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome - Eat Quick</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Raleway:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-1: #215733;
+      --green-2: #a2de96;
+      --lightGreen-1: #d6e5d8;
+      --lightGreen-2: #f5fcf4;
+      --black-1: #141613;
+      --black-2: #3f3c3c;
+      --white-1: #ffffff;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--lightGreen-2);
+      color: var(--black-2);
+      margin: 0;
+      padding: 0;
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(to right, var(--green-1), var(--green-2));
+      color: white;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+    .btn {
+      background-color: white;
+      color: var(--green-1);
+      padding: 12px 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background-color: var(--lightGreen-1);
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>Welcome to Eat Quick</h1>
+    <p>Fresh food, fast service. Login or sign up to start ordering now!</p>
+    <div>
+      <a href="{{ url_for('login') }}" class="btn">Login</a>
+      <a href="{{ url_for('signup') }}" class="btn" style="margin-left: 10px;">Sign Up</a>
+    </div>
+  </div>
+</body>
+</html>

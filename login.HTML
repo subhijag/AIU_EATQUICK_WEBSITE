@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Cafeteria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #215733;
+      --primary-dark: #184128;
+      --light: #f5fcf4;
+      --white: #ffffff;
+      --error: #e74c3c;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--light);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    .navbar {
+      background-color: var(--primary);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      color: var(--white);
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo i {
+      font-size: 1.8rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 5px 10px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .login-container {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .login-box {
+      background: var(--white);
+      width: 100%;
+      max-width: 500px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .login-header {
+      background: var(--primary);
+      padding: 30px 20px;
+      text-align: center;
+      color: var(--white);
+    }
+    
+    .login-header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    
+    .login-header p {
+      margin: 10px 0 0;
+      opacity: 0.9;
+    }
+    
+    .login-body {
+      padding: 30px;
+    }
+    
+    .alert {
+      background-color: #f8d7da;
+      color: var(--error);
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 500;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #333;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 14px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(33, 87, 51, 0.1);
+    }
+    
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s;
+    }
+    
+    .btn-login:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .signup-link {
+      margin-top: 20px;
+      color: #666;
+    }
+    
+    .signup-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+    
+    .footer {
+      background-color: var(--primary);
+      color: var(--white);
+      padding: 20px;
+      text-align: center;
+      margin-top: auto;
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-utensils"></i>
+      <span>Eat Quick</span>
+    </div>
+    <div class="nav-links">
+      <a href="{{ url_for('frontPage') }}"><i class="fas fa-home"></i> Home</a>
+      <a href="{{ url_for('signup') }}"><i class="fas fa-user-plus"></i> Sign Up</a>
+    </div>
+  </nav>
+
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-header">
+        <h1>Welcome Back</h1>
+        <p>Sign in to continue to your account</p>
+      </div>
+      
+      <div class="login-body">
+        {% if flag %}
+        <div class="alert">
+          <i class="fas fa-exclamation-circle"></i> Invalid login. Please try again.
+        </div>
+        {% endif %}
+        
+        <form action="{{ url_for('login') }}" method="POST">
+          <div class="form-group">
+            <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              class="form-control" 
+              placeholder="Enter your email"
+              required
+              value="{{ request.form.email if request.method == 'POST' else '' }}"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="password"><i class="fas fa-lock"></i> Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="form-control" 
+              placeholder="Enter your password"
+              required
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="role"><i class="fas fa-user-tag"></i> Login As</label>
+            <select id="role" name="role" class="form-control" required>
+              <option value="" disabled selected>Select your role</option>
+              <option value="customer" {% if request.method == 'POST' and request.form.role == 'customer' %}selected{% endif %}>Customer</option>
+              <option value="admin" {% if request.method == 'POST' and request.form.role == 'admin' %}selected{% endif %}>Administrator</option>
+            </select>
+          </div>
+          
+          <button type="submit" class="btn-login">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </button>
+        </form>
+        
+        <div class="signup-link">
+          Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+    <p>&copy; 2023 Eat Quick Cafeteria. All rights reserved.</p>
+  </footer>
+</body>
+</html>

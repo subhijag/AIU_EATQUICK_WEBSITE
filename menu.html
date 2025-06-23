@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu - Eat Quick</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5fcf4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #215733;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar .logo {
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: bold;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .menu-header h2 {
+      color: #215733;
+    }
+
+    .filter-buttons a {
+      margin-left: 10px;
+      padding: 8px 14px;
+      background-color: #215733;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .filter-buttons a:hover {
+      background-color: #184128;
+    }
+
+    .food-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .food-card {
+      width: 250px;
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .food-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .food-content {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .food-title {
+      color: #215733;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .price {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    .rating {
+      color: #f5a623;
+      font-size: 0.9rem;
+    }
+
+    .category-label {
+      display: inline-block;
+      background: #eef6ec;
+      color: #215733;
+      font-size: 0.8rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: bold;
+      width: fit-content;
+    }
+
+    .order-btn {
+      background-color: #215733;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .order-btn:hover {
+      background-color: #184128;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">🍽 Eat Quick</div>
+    <div>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('menu') }}">Menu</a>
+      <a href="{{ url_for('account') }}">Account</a>
+      <a href="{{ url_for('orderDetails') }}">Orders</a>
+      <a href="{{ url_for('userLogout') }}">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="menu-header">
+      <h2>Today's Menu</h2>
+      <div class="filter-buttons">
+        <a href="{{ url_for('filter_menu', filter='filterByPrice') }}">Sort by Price</a>
+        <a href="{{ url_for('filter_menu', filter='filterByRating') }}">Sort by Rating</a>
+        <a href="{{ url_for('filter_menu', filter='Food') }}">Show Only Food</a>
+        <a href="{{ url_for('filter_menu', filter='Drink') }}">Show Only Drinks</a>
+        <a href="{{ url_for('filter_menu', filter='Student') }}">Show Student Items</a>
+      </div>
+    </div>
+
+    <div class="food-grid">
+      {% for food in foods %}
+        <div class="food-card">
+          <img src="{{ url_for('static', filename='uploads/' ~ food[1]) }}" alt="{{ food[3] }}">
+          <div class="food-content">
+            <div class="category-label">{{ food[6] }}</div>
+            <div class="food-title">{{ food[3] }}</div>
+            <div class="price">RM {{ food[2] }}</div>
+            <div class="rating">
+              {% for item in foodnosAndRates %}
+                {% if item[0] == food[0] %}
+                  {% for i in range(item[1]|int) %}★{% endfor %}
+                  {% for i in range(5 - item[1]|int) %}☆{% endfor %}
+                {% endif %}
+              {% endfor %}
+            </div>
+            <a class="order-btn" href="{{ url_for('product', food_id=food[0]) }}">Order</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

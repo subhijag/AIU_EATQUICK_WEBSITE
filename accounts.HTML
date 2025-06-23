@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account - Eat Quick</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #215733;
+      --primary-dark: #184128;
+      --secondary: #4CAF50;
+      --light: #f5fcf4;
+      --white: #ffffff;
+      --text: #333333;
+      --border: #e0e0e0;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --error: #e74c3c;
+      --success: #2ecc71;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    .navbar {
+      background-color: var(--primary);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo {
+      color: var(--white);
+      font-size: 1.5rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo i {
+      font-size: 1.8rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 5px 10px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    
+    .profile-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .profile-header h1 {
+      color: var(--primary);
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+    
+    .profile-header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+    
+    .profile-card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .profile-banner {
+      height: 180px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      position: relative;
+    }
+    
+    .profile-avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 5px solid var(--white);
+      background: #e0f2e9;
+      position: absolute;
+      bottom: -70px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: var(--primary);
+      overflow: hidden;
+    }
+    
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .profile-info {
+      padding: 90px 30px 40px;
+      text-align: center;
+    }
+    
+    .user-name {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+    
+    .user-email {
+      color: #666;
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+    }
+    
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    
+    .info-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+    }
+    
+    .info-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .info-card h3 {
+      color: var(--primary);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .info-card h3 i {
+      font-size: 1.4rem;
+    }
+    
+    .info-item {
+      display: flex;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .info-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    
+    .info-label {
+      font-weight: 600;
+      color: var(--primary);
+      min-width: 120px;
+      text-align: left;
+    }
+    
+    .info-value {
+      flex: 1;
+      text-align: left;
+    }
+    
+    .edit-btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+      border: 2px solid var(--primary);
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+    }
+    
+    .edit-btn:hover {
+      background: transparent;
+      color: var(--primary);
+    }
+    
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 20px;
+      border-radius: 12px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      min-width: 150px;
+    }
+    
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .stat-label {
+      color: #666;
+      font-size: 1rem;
+    }
+    
+    .preference-form {
+      margin-top: 30px;
+      padding: 25px;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      transition: border-color 0.3s;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(33, 87, 51, 0.1);
+    }
+    
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23215733' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 16px;
+      padding-right: 40px;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .checkbox-item input {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .alert {
+      padding: 12px 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 500;
+    }
+    
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .alert-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .stats {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .profile-info {
+        padding: 90px 15px 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-utensils"></i>
+      <span>Eat Quick</span>
+    </div>
+    <div class="nav-links">
+      <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+      <a href="{{ url_for('menu') }}"><i class="fas fa-burger"></i> Menu</a>
+      <a href="{{ url_for('account') }}"><i class="fas fa-user"></i> Account</a>
+      <a href="{{ url_for('orderDetails') }}"><i class="fas fa-receipt"></i> Orders</a>
+      <a href="{{ url_for('userLogout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="profile-header">
+      <h1>Your Profile</h1>
+      <p>View and manage your account information</p>
+    </div>
+    
+    {% if success %}
+    <div class="alert alert-success">
+      <i class="fas fa-check-circle"></i> Preferences updated successfully!
+    </div>
+    {% endif %}
+    
+    {% if error %}
+    <div class="alert alert-error">
+      <i class="fas fa-exclamation-circle"></i> {{ error }}
+    </div>
+    {% endif %}
+    
+    <div class="profile-card">
+      <div class="profile-banner"></div>
+      <div class="profile-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      
+      <div class="profile-info">
+        <h2 class="user-name">{{ customer[1] }} {{ customer[2] }}</h2>
+        <p class="user-email">{{ customer[4] }}</p>
+        
+        <div class="stats">
+          <div class="stat-item">
+            <div class="stat-number">{{ order_count }}</div>
+            <div class="stat-label">Orders</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{{ avg_rating }}</div>
+            <div class="stat-label">Avg Rating</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{{ active_orders }}</div>
+            <div class="stat-label">Active</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="info-grid">
+      <div class="info-card">
+        <h3><i class="fas fa-info-circle"></i> Personal Information</h3>
+        <div class="info-item">
+          <div class="info-label">Full Name:</div>
+          <div class="info-value">{{ customer[1] }} {{ customer[2] }}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Username:</div>
+          <div class="info-value">{{ customer[3] }}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Email:</div>
+          <div class="info-value">{{ customer[4] }}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Phone:</div>
+          <div class="info-value">{{ customer[6] if customer[6] else 'Not provided' }}</div>
+        </div>
+      </div>
+      
+      <div class="info-card">
+        <h3><i class="fas fa-truck"></i> Order Preferences</h3>
+        <div class="info-item">
+          <div class="info-label">Favorite Cuisine:</div>
+          <div class="info-value">{{ preferences.favorite_cuisine if preferences.favorite_cuisine else 'Not set' }}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Dietary Needs:</div>
+          <div class="info-value">
+            {% if preferences.dietary_needs %}
+              {{ preferences.dietary_needs|join(', ') }}
+            {% else %}
+              None
+            {% endif %}
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Delivery Address:</div>
+          <div class="info-value">{{ preferences.delivery_address if preferences.delivery_address else 'Albukhary International University' }}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Payment Method:</div>
+          <div class="info-value">{{ preferences.payment_method if preferences.payment_method else 'Credit Card **** 1234' }}</div>
+        </div>
+      </div>
+    </div>
+    
+    <form method="POST" action="{{ url_for('update_preferences') }}" class="preference-form">
+      <h3><i class="fas fa-edit"></i> Update Preferences</h3>
+      
+      <div class="form-group">
+        <label for="favorite_cuisine">Favorite Cuisine</label>
+        <select name="favorite_cuisine" id="favorite_cuisine" class="form-control">
+          <option value="">Select your favorite cuisine</option>
+          <option value="Italian" {% if preferences.favorite_cuisine == 'Italian' %}selected{% endif %}>Italian</option>
+          <option value="Asian" {% if preferences.favorite_cuisine == 'Asian' %}selected{% endif %}>Asian</option>
+          <option value="Mexican" {% if preferences.favorite_cuisine == 'Mexican' %}selected{% endif %}>Mexican</option>
+          <option value="American" {% if preferences.favorite_cuisine == 'American' %}selected{% endif %}>American</option>
+          <option value="Mediterranean" {% if preferences.favorite_cuisine == 'Mediterranean' %}selected{% endif %}>Mediterranean</option>
+          <option value="Indian" {% if preferences.favorite_cuisine == 'Indian' %}selected{% endif %}>Indian</option>
+          <option value="Middle Eastern" {% if preferences.favorite_cuisine == 'Middle Eastern' %}selected{% endif %}>Middle Eastern</option>
+          <option value="Other" {% if preferences.favorite_cuisine == 'Other' %}selected{% endif %}>Other</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Dietary Needs</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" name="dietary_needs" id="vegetarian" value="Vegetarian" 
+                   {% if 'Vegetarian' in preferences.dietary_needs %}checked{% endif %}>
+            <label for="vegetarian">Vegetarian</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="dietary_needs" id="vegan" value="Vegan" 
+                   {% if 'Vegan' in preferences.dietary_needs %}checked{% endif %}>
+            <label for="vegan">Vegan</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="dietary_needs" id="gluten_free" value="Gluten-Free" 
+                   {% if 'Gluten-Free' in preferences.dietary_needs %}checked{% endif %}>
+            <label for="gluten_free">Gluten-Free</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="dietary_needs" id="dairy_free" value="Dairy-Free" 
+                   {% if 'Dairy-Free' in preferences.dietary_needs %}checked{% endif %}>
+            <label for="dairy_free">Dairy-Free</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="dietary_needs" id="nut_free" value="Nut-Free" 
+                   {% if 'Nut-Free' in preferences.dietary_needs %}checked{% endif %}>
+            <label for="nut_free">Nut-Free</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="dietary_needs" id="halal" value="Halal" 
+                   {% if 'Halal' in preferences.dietary_needs %}checked{% endif %}>
+            <label for="halal">Halal</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="delivery_address">Delivery Address</label>
+        <input type="text" name="delivery_address" id="delivery_address" class="form-control" 
+               value="{{ preferences.delivery_address if preferences.delivery_address else 'Albukhary International University' }}">
+      </div>
+      
+      <div class="form-group">
+        <label for="payment_method">Payment Method</label>
+        <input type="text" name="payment_method" id="payment_method" class="form-control" 
+               value="{{ preferences.payment_method if preferences.payment_method else 'Credit Card **** 1234' }}">
+      </div>
+      
+      <button type="submit" class="edit-btn">
+        <i class="fas fa-save"></i> Save Preferences
+      </button>
+    </form>
+  </div>
+</body>
+</html>

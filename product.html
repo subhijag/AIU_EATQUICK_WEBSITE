@@ -1,0 +1,158 @@
+<!-- templates/product.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Item - Cafeteria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5fcf4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #215733;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 10px;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    .navbar .logo {
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      display: flex;
+      gap: 30px;
+    }
+
+    .product-image img {
+      width: 350px;
+      border-radius: 10px;
+    }
+
+    .product-details {
+      flex-grow: 1;
+    }
+
+    h2 {
+      color: #215733;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    .price {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+
+    .rating {
+      color: #f5a623;
+      margin-bottom: 10px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #215733;
+      color: white;
+      border: none;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #184128;
+    }
+
+    .review-section {
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">🍽 Eat Quick</div>
+    <div>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('menu') }}">Menu</a>
+      <a href="{{ url_for('account') }}">Account</a>
+      <a href="{{ url_for('orderDetails') }}">Orders</a>
+      <a href="{{ url_for('userLogout') }}">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="product-image">
+      <img src="{{ url_for('static', filename='uploads/' ~ food[1]) }}" alt="{{ food[3] }}">
+    </div>
+    <div class="product-details">
+      <h2>{{ food[3] }}</h2>
+      <div class="price">RM {{ food[2] }}</div>
+      <p>{{ food[4] }}</p>
+
+      <div class="rating">
+        {% for i in range(reviewsAndCount[0]|round(0, 'floor')) %}★{% endfor %}
+        {% for i in range(5 - (reviewsAndCount[0]|round(0, 'floor'))) %}☆{% endfor %}
+        ({{ reviewsAndCount[1] }} reviews)
+      </div>
+
+      <form method="POST">
+        <input type="number" name="quantity" placeholder="Quantity" required>
+        <input type="text" name="pay_number" placeholder="Payment Number" required>
+        <input type="number" step="0.01" name="pay_amount" placeholder="Amount (RM)" required>
+        <button type="submit">Place Order</button>
+      </form>
+
+      <div class="review-section">
+        <h3>Customer Reviews</h3>
+        {% for rev in allRevs %}
+          <p><strong>{{ rev[1] }}★</strong> - {{ rev[2] }}</p>
+        {% else %}
+          <p>No reviews yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</body>
+</html>

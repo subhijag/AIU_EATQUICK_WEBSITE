@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Food - Eat Quick</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5fcf4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #215733;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      margin-left: 15px;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    h2 {
+      color: #215733;
+      margin-top: 20px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    form {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input, select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #215733;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #184128;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .success {
+      color: green;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .review-box {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+
+    .review {
+      border: 1px solid #eee;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+
+    .review .stars {
+      color: #f5a623;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">🍽 Eat Quick</div>
+    <div>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('menu') }}">Menu</a>
+      <a href="{{ url_for('account') }}">Account</a>
+      <a href="{{ url_for('orderDetails') }}">Orders</a>
+      <a href="{{ url_for('userLogout') }}">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    {% if food %}
+      <img src="{{ url_for('static', filename='foodimages/' ~ food[1]) }}" alt="{{ food[3] }}">
+      <h2>{{ food[3] }}</h2>
+      <p><strong>Price:</strong> RM {{ food[2] }}</p>
+      <p>{{ food[4] }}</p>
+
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+
+      {% if success %}
+        <div class="success">{{ success }}</div>
+      {% endif %}
+
+      <form method="POST">
+        <input type="number" name="quantity" placeholder="Quantity" required min="1">
+        <input type="text" name="pay_number" placeholder="Payment Number" required>
+        <input type="number" step="0.01" name="pay_amount" placeholder="Amount (RM)" required>
+
+        <select name="payment_method" required>
+          <option value="">-- Select Payment Method --</option>
+          <option value="Cash">Cash</option>
+          <option value="Card">Card</option>
+          <option value="Online Transfer">Online Transfer</option>
+        </select>
+
+        <button type="submit">Place Order</button>
+      </form>
+
+      <div class="review-box">
+        <h3>Customer Reviews</h3>
+        {% if allRevs %}
+          {% for review in allRevs %}
+            <div class="review">
+              <strong>{{ review[2] }} {{ review[3] }}</strong><br>
+              <div class="stars">
+                {% set rating = review[0]|float %}
+                {% for i in range(rating|int) %}★{% endfor %}
+                {% for i in range(5 - (rating|int)) %}☆{% endfor %}
+              </div>
+              <p>{{ review[1] }}</p>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No reviews yet.</p>
+        {% endif %}
+      </div>
+
+    {% else %}
+      <h2>No food item found.</h2>
+    {% endif %}
+  </div>
+
+</body>
+</html>
